@@ -12,7 +12,6 @@
     "@inco/js": "latest",
     "@tanstack/react-query": "^5.51.0",
     "@vercel/kv": "^2.0.0",
-    "cofhejs": "^0.2.1",
     "ethers": "^6.13.4",
     "next": "14.2.5",
     "react": "^18.3.1",
