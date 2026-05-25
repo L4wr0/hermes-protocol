@@ -1,0 +1,21 @@
+# Secrets
+.env
+.env.local
+.env.production
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+.next/
+.vercel/
+
+# Foundry
+out/
+cache/
+broadcast/
+lib/
+
+# Keys
+*.key
