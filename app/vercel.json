@@ -1,11 +1,10 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "next build",
   "framework": "nextjs",
   "crons": [
     {
       "path": "/api/relay-amm",
-      "schedule": "*/2 * * * *"
+      "schedule": "0 * * * *"
     }
   ],
   "functions": {
