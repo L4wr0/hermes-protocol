@@ -71,7 +71,7 @@ export function Step2Vault({ unlocked, done }: { unlocked: boolean; done: boolea
 
       // Get ethereum provider for signature
       const provider = (window as any).ethereum;
-      const result = await zap.attestedDecrypt(provider, handleHex);
+      const result = await zap.attestedDecrypt(provider, [handleHex] as any);
       const plaintext = result.toString();
 
       Latency.end(latId);
