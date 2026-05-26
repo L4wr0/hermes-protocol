@@ -37,7 +37,7 @@ function CaduceusLogo({ size = 280 }: { size?: number }) {
       <img
         src="/hermes-logo.png"
         alt="HERMES Caduceus"
-        style={{ width: '100%', height: '100%', objectFit: 'contain', position: 'relative', zIndex: 1 }}
+        style={{ width: '100%', height: '100%', objectFit: 'contain', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 0 30px rgba(0,232,216,.3)) drop-shadow(0 0 60px rgba(74,255,110,.15))', WebkitMaskImage: 'radial-gradient(ellipse 62% 78% at 50% 45%, black 52%, transparent 78%)', maskImage: 'radial-gradient(ellipse 62% 78% at 50% 45%, black 52%, transparent 78%)' }}
         onError={(e) => {
           // Fallback if image not found: show text logo
           (e.target as HTMLImageElement).style.display = 'none';
