@@ -1,7 +1,7 @@
 // src/components/Step1Claim.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useChainId, useSwitchChain } from 'wagmi';
 import { StepCard } from './StepCard';
 import { Latency } from './LatencyMonitor';
@@ -36,10 +36,12 @@ export function Step1Claim({ unlocked, done }: { unlocked: boolean; done: boolea
   const { writeContract, data: txHash, isPending } = useWriteContract();
   const { isLoading: isMining, isSuccess } = useWaitForTransactionReceipt({ hash: txHash, chainId: riseTestnet.id });
 
+  const latIdRef = useRef<string>('');
+
   const handleClaim = async () => {
     setStatus(null);
-    const latId = `claim-${Date.now()}`;
-    Latency.start(latId, 'RISE Faucet Claim', 'SHRED');
+    latIdRef.current = `claim-${Date.now()}`;
+    Latency.start(latIdRef.current, 'RISE Faucet Claim', 'SHRED');
     try {
       if (chainId !== riseTestnet.id) {
         await switchChain({ chainId: riseTestnet.id });
@@ -57,6 +59,7 @@ export function Step1Claim({ unlocked, done }: { unlocked: boolean; done: boolea
   };
 
   if (isSuccess && !status) {
+    Latency.end(latIdRef.current);
     setStatus({ type: 'success', msg: `✓ 1000 HERMES claimed — tx: ${txHash}` });
   }
 
