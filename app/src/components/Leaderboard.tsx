@@ -48,21 +48,10 @@ export function Leaderboard() {
       if (!address) throw new Error('Connect wallet first');
 
       // Dynamic import cofhejs (client only)
-      const cofhejs = await import('cofhejs/web');
+      // cofhejs removed — v2 feature
 
       // Init cofhejs with provider
-      const provider = (window as any).ethereum;
-      await cofhejs.cofhejs.initializeWithEthers({
-        ethersProvider: provider,
-        ethersSigner: provider.getSigner ? await provider.getSigner() : undefined,
-        environment: 'TESTNET',
-      });
-
-      // Read encrypted stats (bytes32 handles)
-      const res = await fetch('/api/leaderboard-stats?address=' + address);
-      // Fallback: call contract directly (would need viem here)
-      // For brevity we ship a stub; in production wire through publicClient.readContract.
-      setStatus('Decryption coming soon — leaderboard stats are FHE handles. cofhejs.unseal() integration WIP.');
+setStatus('FHE decrypt via cofhejs — coming in v2.');
 
     } catch (e: any) {
       setStatus('Decrypt failed: ' + e.message?.slice(0, 100));
