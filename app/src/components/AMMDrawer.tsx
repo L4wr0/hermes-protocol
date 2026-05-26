@@ -11,7 +11,6 @@ import { parseEther, parseUnits, encodeFunctionData, formatEther } from 'viem';
 import { ADDRESSES, baseSepolia, riseTestnet, EXPLORERS } from '@/lib/config';
 import { DARK_AMM_ABI, SPEED_AMM_ABI, HERMES_TOKEN_ABI } from '@/abis';
 import { Latency } from './LatencyMonitor';
-import { SessionStore } from '@/lib/wagmi';
 
 type AMM = 'dark' | 'speed';
 type Mode = 'public' | 'stealth';
