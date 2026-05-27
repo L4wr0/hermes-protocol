@@ -64,19 +64,25 @@ export function Step2Vault({ unlocked, done }: { unlocked: boolean; done: boolea
 
       // Inco SDK: dynamic import (only client-side)
       const { Lightning } = await import('@inco/js/lite');
-      const zap = await Lightning.latest('testnet', baseSepolia.id);
+      const { getViemChain, supportedChains } = await import('@inco/js');
+      const { createWalletClient, custom } = await import('viem');
 
       // Convert uint256 → hex32 handle format
       const handleHex = ('0x' + (encryptedHandle as bigint).toString(16).padStart(64, '0')) as `0x${string}`;
 
-      // Need ethers signer for attestedDecrypt (not raw provider)
-      const { BrowserProvider } = await import('ethers');
-      const ethersProvider = new BrowserProvider((window as any).ethereum);
-      const signer = await ethersProvider.getSigner();
+      // Build viem walletClient on Base Sepolia
+      const walletClient = createWalletClient({
+        chain: getViemChain(supportedChains.baseSepolia),
+        transport: custom((window as any).ethereum),
+        account: address,
+      });
 
-      // attestedDecrypt expects (signer, handle) — single handle, not array
-      const result = await zap.reencryptInputs([handleHex], signer);
-      const plaintext = result[0].toString();
+      // Init Inco zap on Base Sepolia
+      const zap = await Lightning.latest('testnet', supportedChains.baseSepolia);
+
+      // Attested decrypt — returns array of results
+      const results = await zap.attestedDecrypt(walletClient, [handleHex]);
+      const plaintext = results[0].plaintext.value.toString();
 
       Latency.end(latId);
       setDecrypted(formatEther(BigInt(plaintext)));
