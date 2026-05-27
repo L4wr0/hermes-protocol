@@ -33,9 +33,16 @@ export const CONFIDENTIAL_VAULT_ABI = [
   { type: 'function', name: 'totalDeposits',     stateMutability: 'view',
     inputs: [], outputs: [{ type: 'uint256' }] },
   { type: 'event', name: 'Deposited',
-    inputs: [{ indexed: true, type: 'address' }, { type: 'uint256' }] },
+    inputs: [
+      { indexed: true, name: 'user', type: 'address' },
+      { name: 'amount', type: 'uint256' }
+    ] },
   { type: 'event', name: 'DarkBridgeRequested',
-    inputs: [{ indexed: true, type: 'address' }, { type: 'uint256' }, { type: 'uint256' }] },
+    inputs: [
+      { indexed: true, name: 'user', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' }
+    ] },
 ] as const;
 
 export const BRIDGE_ABI = [
@@ -49,7 +56,11 @@ export const BRIDGE_ABI = [
   { type: 'function', name: 'getReputationPoints', stateMutability: 'view',
     inputs: [{ type: 'address' }], outputs: [{ type: 'uint32' }] },
   { type: 'event', name: 'CollateralBridged',
-    inputs: [{ indexed: true, type: 'address' }, { type: 'uint256' }, { type: 'uint256' }] },
+    inputs: [
+      { indexed: true, name: 'user', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+      { name: 'nonce', type: 'uint256' }
+    ] },
 ] as const;
 
 export const REPUTATION_ABI = [

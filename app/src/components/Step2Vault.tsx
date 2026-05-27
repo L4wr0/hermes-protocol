@@ -69,10 +69,14 @@ export function Step2Vault({ unlocked, done }: { unlocked: boolean; done: boolea
       // Convert uint256 → hex32 handle format
       const handleHex = ('0x' + (encryptedHandle as bigint).toString(16).padStart(64, '0')) as `0x${string}`;
 
-      // Get ethereum provider for signature
-      const provider = (window as any).ethereum;
-      const result = await zap.attestedDecrypt(provider, [handleHex] as any);
-      const plaintext = result.toString();
+      // Need ethers signer for attestedDecrypt (not raw provider)
+      const { BrowserProvider } = await import('ethers');
+      const ethersProvider = new BrowserProvider((window as any).ethereum);
+      const signer = await ethersProvider.getSigner();
+
+      // attestedDecrypt expects (signer, handle) — single handle, not array
+      const result = await zap.reencryptInputs([handleHex], signer);
+      const plaintext = result[0].toString();
 
       Latency.end(latId);
       setDecrypted(formatEther(BigInt(plaintext)));
